@@ -3,18 +3,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
- 
+using TMPro;
+using UnityEngine.InputSystem.XR;
+using UnityEngine.UIElements;
+
+
 public class SelectionManager : MonoBehaviour
 {
- 
-    public GameObject interaction_Info_UI;
-    Text interaction_text;
- 
+
+    public GameObject InteractionUI;
+    TextMeshProUGUI interaction_text;
+    public bool cursorPointing;
+    public static SelectionManager Instance { get; set; }
     private void Start()
     {
-        interaction_text = interaction_Info_UI.GetComponent<Text>();
+        cursorPointing = false;
+        interaction_text = InteractionUI.GetComponent<TextMeshProUGUI>();
     }
- 
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
     void Update()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -22,17 +39,25 @@ public class SelectionManager : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             var selectionTransform = hit.transform;
- 
-            if (selectionTransform.GetComponent<InteractableObject>())
+
+            InteractableObject Interactable = selectionTransform.GetComponent<InteractableObject>();
+            if (Interactable && Interactable.playerInRange)
             {
-                interaction_text.text = selectionTransform.GetComponent<InteractableObject>().GetItemName();
-                interaction_Info_UI.SetActive(true);
+                interaction_text.text = Interactable.GetItemName();
+                InteractionUI.SetActive(true);
+                cursorPointing = true;
             }
-            else 
-            { 
-                interaction_Info_UI.SetActive(false);
+            else
+            {
+                InteractionUI.SetActive(false);
+                cursorPointing = false;
             }
- 
+
+        }
+        else
+        {
+            InteractionUI.SetActive(false);
+            cursorPointing = false;
         }
     }
 }
