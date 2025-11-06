@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,9 @@ public class InteractableObject : MonoBehaviour
 {
     public string ItemName;
     public bool playerInRange;
-
+    public int MaxStackSize;
+    public InventoryItemData ItemData;
+    public InventoryHolder PlayerInventory;
     public string GetItemName()
     {
         return ItemName;
@@ -16,8 +19,11 @@ public class InteractableObject : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E) && playerInRange && SelectionManager.Instance.cursorPointing)
         {
-            Debug.Log("item added  to  inventory");
-            Destroy(gameObject);
+            Debug.Log("item  HERRO added  to  inventory: " + ItemName);
+
+            PlayerInventory.InventorySystem.AddToInventory(ItemData, 1);
+            Debug.Log("item added  to  inventory: " + ItemName);
+            Destroy(gameObject);            
         }
     }
 
@@ -26,6 +32,7 @@ public class InteractableObject : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = true;
+            PlayerInventory = other.GetComponent<InventoryHolder>();
         }
     }
 
@@ -33,7 +40,8 @@ public class InteractableObject : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-             playerInRange = false;
+            playerInRange = false;
+            PlayerInventory = null;
         }
     }
 }
