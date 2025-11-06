@@ -24,10 +24,10 @@ public class InventorySystem
     
     public bool AddToInventory(InventoryItemData item, int amount)
     {
-        if (inventorySlots[0] == null)
+        if (inventorySlots[0].ItemData == null)
         {
-            Debug.Log("REEHEEHEEHEE");
-            new InventorySlot(item, amount);
+            Debug.Log("REEHEEHEEHEE" + item.DisplayName);
+            inventorySlots[0] = new InventorySlot(item, 1);
         }
         else
         {

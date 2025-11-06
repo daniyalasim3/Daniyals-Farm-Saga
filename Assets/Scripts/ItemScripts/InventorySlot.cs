@@ -33,7 +33,7 @@ public class InventorySlot
     public void ClearSlot()
     {
         itemData = null;
-        stackSize = -1;
+        stackSize = 0;
     }
 
     public bool RoomLeftInStack(int amountToAdd)

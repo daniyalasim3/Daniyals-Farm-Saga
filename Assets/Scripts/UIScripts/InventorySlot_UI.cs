@@ -32,7 +32,7 @@ public class InventorySlot_UI : MonoBehaviour
         UpdateUISlot(slot);
     }
 
-    private void UpdateUISlot(InventorySlot slot)
+    public void UpdateUISlot(InventorySlot slot)
     {
         if (slot.ItemData != null)
         {

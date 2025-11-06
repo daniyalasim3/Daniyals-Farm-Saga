@@ -22,7 +22,6 @@ public class InteractableObject : MonoBehaviour
             Debug.Log("item  HERRO added  to  inventory: " + ItemName);
 
             PlayerInventory.InventorySystem.AddToInventory(ItemData, 1);
-            Debug.Log("item added  to  inventory: " + ItemName);
             Destroy(gameObject);            
         }
     }
