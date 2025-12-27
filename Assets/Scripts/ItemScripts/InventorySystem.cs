@@ -21,19 +21,67 @@ public class InventorySystem
             inventorySlots.Add(new InventorySlot());
         }
     }
-    
-    public bool AddToInventory(InventoryItemData item, int amount)
+
+   public bool AddToInventory(InventoryItemData item, int amount)
     {
-        if (inventorySlots[0].ItemData == null)
+    if (item == null) return false;
+
+    Debug.Log($"Adding item: {item.name}");
+    var slot = new InventorySlot();
+
+    if(ContainsItem(item, out slot))
         {
-            Debug.Log("REEHEEHEEHEE" + item.DisplayName);
-            inventorySlots[0] = new InventorySlot(item, 1);
+            Debug.Log("Item ALREADY EXISTS!");
+            slot.AddToStack(amount);                 // ✅ mutate existing slot
         }
         else
         {
-            Debug.Log("yresd daddy");
-            inventorySlots[0].stackSize++;
-        }        return true;
+            if(FindEmpty(item, out slot))
+            {
+                slot.UpdateInventorySlot(item, amount);
+            }
+            else
+            {
+                Debug.Log("cant find empty or contains slot");
+            }
+        }
+    OnInventorySlotChanged?.Invoke(slot);        // ✅ tell UI
+    return true;
+    ;}
+    
+    public bool ContainsItem(InventoryItemData  itemToAdd, out InventorySlot invSlot)
+    {
+        Debug.Log("Searching for item");
+        foreach (var slot in inventorySlots)
+    {
+        if (slot.ItemData == itemToAdd)
+        {
+            Debug.Log($"Item found");
+            invSlot = slot;
+            return true;
+        }
     }
+    invSlot = null;
+    return false;
+    }
+
+
+    public bool FindEmpty(InventoryItemData itemToAdd, out InventorySlot invSlot)
+    {
+        Debug.Log("Searching for Empty Slot");
+
+        foreach (var slot in inventorySlots)
+        {
+            if(slot.ItemData ==null)
+            {
+                invSlot = slot;
+                return true;
+            }
+        }
+
+    invSlot = null;
+    return false;
+    }
+    
 
 }

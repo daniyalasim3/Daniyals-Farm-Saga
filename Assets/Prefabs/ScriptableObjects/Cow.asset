@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5623033932fc2784d8016d5510360800, type: 3}
-  m_Name: Test item 2
+  m_Name: Cow
   m_EditorClassIdentifier: 
-  DisplayName: 
-  icon: {fileID: 0}
-  MaxStackSize: 0
+  DisplayName: Cow
+  icon: {fileID: 21300000, guid: c2a8f3f1b05655f4094e1a95359593d4, type: 3}
+  MaxStackSize: 10

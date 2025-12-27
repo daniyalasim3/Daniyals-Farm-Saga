@@ -19,8 +19,7 @@ public class InteractableObject : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E) && playerInRange && SelectionManager.Instance.cursorPointing)
         {
-            Debug.Log("item  HERRO added  to  inventory: " + ItemName);
-
+            Debug.Log("item    added  to  inventory: " + ItemName);
             PlayerInventory.InventorySystem.AddToInventory(ItemData, 1);
             Destroy(gameObject);            
         }

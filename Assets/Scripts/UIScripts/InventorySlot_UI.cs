@@ -3,11 +3,13 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using Unity.VisualScripting;
+[RequireComponent(typeof(Button))]
 public class InventorySlot_UI : MonoBehaviour
 {
     [SerializeField] private Image itemSprite;
     [SerializeField] private TextMeshProUGUI itemCount;
     [SerializeField] private InventorySlot assignedInventorySlot;
+    public InventoryDisplay ParentDisplay {get; private set; }
 
     private Button button;
 
@@ -17,8 +19,10 @@ public class InventorySlot_UI : MonoBehaviour
     {
         ClearSlot();
 
-        button.GetComponent<Button>();
+        button = GetComponent<Button>();                 // ← assign it
         button?.onClick.AddListener(OnUISlotClick);
+
+        ParentDisplay = transform.parent.GetComponent<InventoryDisplay>();
     }
 
     private void OnUISlotClick()
@@ -43,10 +47,17 @@ public class InventorySlot_UI : MonoBehaviour
         {
             ClearSlot();
         }
+        if(slot.StackSize > 1) itemCount.text = slot.stackSize.ToString();
+        else itemCount.text = "";
+    }
+    public void UpdateUISlot()
+    {
+        if (assignedInventorySlot != null) UpdateUISlot(assignedInventorySlot);
     }
 
     public void ClearSlot()
     {
+        Debug.Log("Clearing Slot");
         assignedInventorySlot?.ClearSlot();
         itemSprite.sprite = null;
         itemSprite.color = Color.clear;
@@ -61,6 +72,5 @@ public class InventorySlot_UI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
     }
 }

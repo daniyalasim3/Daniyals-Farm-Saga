@@ -1,3 +1,4 @@
+using System.Data;
 using UnityEngine;
 
 [System.Serializable]
@@ -36,6 +37,11 @@ public class InventorySlot
         stackSize = 0;
     }
 
+    public void UpdateInventorySlot(InventoryItemData data, int amount)
+    {
+        itemData = data;
+        stackSize = amount;
+    }
     public bool RoomLeftInStack(int amountToAdd)
     {
         if (stackSize + amountToAdd <= itemData.MaxStackSize) return true;

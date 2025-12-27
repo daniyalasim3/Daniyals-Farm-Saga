@@ -13,17 +13,25 @@ public class StaticInventoryDisplay : InventoryDisplay
         {
             inventorySystem = inventoryHolder.InventorySystem;
             inventorySystem.OnInventorySlotChanged += UpdateSlot;
-
+            AssignSlot(inventorySystem);
         }
-        else Debug.Log("KACHOW");
+        else Debug.Log("StaticInventoryDisplay error");
+
+
     }
+    
     public override void AssignSlot(InventorySystem invToDisplay)
     {
         slotDictionary = new Dictionary<InventorySlot_UI, InventorySlot>();
+
+        if(slots.Length != inventorySystem.InventorySize) Debug.Log("Somethings wrong in StaticInventoryDisplay I think");
+        
         for(int i=0; i < inventorySystem.InventorySize; i++)
         {
             slotDictionary.Add(slots[i], inventorySystem.InventorySlots[i]);
             slots[i].Init(inventorySystem.InventorySlots[i]);
         }
     }
+
+    
 }
