@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.WSA;
 
 [System.Serializable]
 public class InventorySystem
@@ -12,6 +13,7 @@ public class InventorySystem
     public int InventorySize => InventorySlots.Count;
 
     public UnityAction<InventorySlot> OnInventorySlotChanged;
+    public UnityAction<string> OnError;
     public InventorySystem(int size)
     {
         inventorySlots = new List<InventorySlot>(size);
@@ -43,6 +45,8 @@ public class InventorySystem
             else
             {
                 Debug.Log("cant find empty or contains slot");
+                OnError?.Invoke("Inventory Full");
+                return false; 
             }
         }
     OnInventorySlotChanged?.Invoke(slot);        // ✅ tell UI
