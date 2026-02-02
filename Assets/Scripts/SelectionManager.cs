@@ -15,6 +15,8 @@ public class SelectionManager : MonoBehaviour
     TextMeshProUGUI interaction_text;
     public bool cursorPointing;
     public static SelectionManager Instance { get; set; }
+
+    public InteractableObject CurrentTarget {get; private set;}
     private void Start()
     {
         cursorPointing = false;
@@ -36,19 +38,21 @@ public class SelectionManager : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~0, QueryTriggerInteraction.Ignore))
         {
             var selectionTransform = hit.transform;
 
-            var Interactable = hit.collider.GetComponentInParent<InteractableObject>();
+            var Interactable = hit.collider.GetComponent<InteractableObject>();
             if (Interactable && Interactable.playerInRange)
             {
+                CurrentTarget = Interactable;
                 interaction_text.text = Interactable.GetItemName();
                 InteractionUI.SetActive(true);
                 cursorPointing = true;
             }
             else
             {
+                CurrentTarget = null;
                 InteractionUI.SetActive(false);
                 cursorPointing = false;
             }

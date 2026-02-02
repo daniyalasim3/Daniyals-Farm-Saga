@@ -14,6 +14,7 @@ public class InventorySystem
 
     public UnityAction<InventorySlot> OnInventorySlotChanged;
     public UnityAction<string> OnError;
+    [SerializeField] private NotificationUI notification;
     public InventorySystem(int size)
     {
         inventorySlots = new List<InventorySlot>(size);

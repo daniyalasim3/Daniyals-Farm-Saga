@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5623033932fc2784d8016d5510360800, type: 3}
-  m_Name: Red Flower
+  m_Name: Book
   m_EditorClassIdentifier: 
-  DisplayName: Red Flower
-  icon: {fileID: 21300000, guid: 6d8cdf3756cccb04c9c31415f5fbcca4, type: 3}
+  DisplayName: Book
+  icon: {fileID: 21300000, guid: 90516a1c822e50942bdfd86675986d1f, type: 3}
   MaxStackSize: 10

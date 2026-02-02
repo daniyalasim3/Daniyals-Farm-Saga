@@ -10,6 +10,8 @@ public class InteractableObject : MonoBehaviour
     public int MaxStackSize;
     public InventoryItemData ItemData;
     public InventoryHolder PlayerInventory;
+    public enum InteractType { Pickup, Button }
+    public InteractType interactType = InteractType.Pickup;
     public string GetItemName()
     {
         return ItemName;
@@ -17,16 +19,23 @@ public class InteractableObject : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && playerInRange && SelectionManager.Instance.cursorPointing)
+        if (Input.GetKeyDown(KeyCode.E) && playerInRange && SelectionManager.Instance.CurrentTarget == this)
         {
-            Debug.Log("Attempting to add item to inventory: " + ItemName);
-            if(PlayerInventory.InventorySystem.AddToInventory(ItemData, 1))
-            {    
-                Destroy(gameObject); 
+            if(interactType == InteractType.Pickup)
+            {
+                Debug.Log("Attempting to add item to inventory: " + ItemName);
+                if(PlayerInventory.TryAddToInventory(ItemData, 1))
+                {    
+                    Destroy(gameObject); 
+                }
+                else
+                {
+                    Debug.Log("Couldn't add object to inventory: " + ItemName);
+                }
             }
             else
             {
-                Debug.Log("Couldn't add object to inventory: " + ItemName);
+                PlayerInventory.TryAddToInventory(ItemData, 1);
             }
                        
         }
