@@ -9,6 +9,13 @@ public class NotificationUI : MonoBehaviour
     [SerializeField] private int maxLines = 6;
     [SerializeField] private float lineLifetime = 3f; // seconds each line stays
 
+    public enum NotificationType //Create 3 different types of notifications
+{
+    Info,
+    Warning,
+    Error
+}
+
     private readonly Queue<string> lines = new Queue<string>();
     private Coroutine clearRoutine;
 
@@ -18,12 +25,12 @@ public class NotificationUI : MonoBehaviour
         text.text = "";
     }
 
-    public void Show(string message)
+    public void Show(string message, NotificationType type = NotificationType.Info)
     {
         if (string.IsNullOrWhiteSpace(message)) return;
 
         // Add line
-        lines.Enqueue(message);
+        lines.Enqueue(FormatMessage(message, type));
 
         // Keep last N lines
         while (lines.Count > maxLines)
@@ -45,4 +52,14 @@ public class NotificationUI : MonoBehaviour
         text.text = "";
         clearRoutine = null;
     }
+
+    private string FormatMessage(string message, NotificationType type) //Helper class to select the color of the UI text
+{
+    return type switch
+    {
+        NotificationType.Error   => $"<color=#ff4c4c>{message}</color>",
+        NotificationType.Warning => $"<color=#ffd84c>{message}</color>",
+        _                         => message // Info = default color
+    };
+}
 }

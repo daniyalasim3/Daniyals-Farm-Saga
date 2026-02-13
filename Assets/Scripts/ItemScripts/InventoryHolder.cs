@@ -30,11 +30,11 @@ public class InventoryHolder : MonoBehaviour
         if (!added)
         {
         if (notificationUI != null)
-            notificationUI.Show("Can not pick up item! Inventory full");
+            notificationUI.Show("Can not pick up item! Inventory full", NotificationUI.NotificationType.Error);
     }
         else
         {
-            notificationUI.Show($"Item added: {item.DisplayName}");
+            notificationUI.Show($"Item added: {item.DisplayName}", NotificationUI.NotificationType.Info);
         }
             
 
